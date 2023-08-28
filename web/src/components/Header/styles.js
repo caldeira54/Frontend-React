@@ -38,8 +38,12 @@ export const RigthSide = styled.div`
             color: #EE6B26;
         }
     }
-
+    
     #notification {
+        background: none;
+        border: none;
+        cursor: pointer;
+
         img {
             width: 25px;
             height: 30px;
