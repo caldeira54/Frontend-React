@@ -21,6 +21,7 @@ export const Content = styled.div`
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    margin-bottom: 70px;
 `
 
 export const Title = styled.div`
