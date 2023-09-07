@@ -13,16 +13,24 @@ function Header({ lateCount, clickNotification }) {
       </S.LeftSide>
 
       <S.RigthSide>
+
         <Link to="/">INÍCIO</Link>
+
         <span className="dividir" />
+
         <Link to="/task">NOVA TAREFA</Link>
+
         <span className="dividir" />
+
         <a href="#">SINCORNIZAR CELULAR</a>
+
         <span className="dividir" />
+
         <button onClick={clickNotification} id="notification">
           <img src={bell} alt="Notificação" />
           <span>{lateCount}</span>
         </button>
+
       </S.RigthSide>
     </S.Container>
   )
