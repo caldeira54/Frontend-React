@@ -40,7 +40,7 @@ function Task({ match }) {
                 setDescription(response.data.description);
                 setDate(format(new Date(response.data.when), 'yyyy-MM-dd'));
                 setHour(format(new Date(response.data.when), 'HH:mm'));
-            })
+            });
     }
 
     async function save() {
@@ -63,7 +63,7 @@ function Task({ match }) {
                 title,
                 description,
                 when: `${date}T${hour}:00.000`
-            })
+            });
             setRedirect(true);
         } else {
             await api.post('/task', {
@@ -72,8 +72,17 @@ function Task({ match }) {
                 title,
                 description,
                 when: `${date}T${hour}:00.000`
-            })
+            });
             setRedirect(true);
+        }
+    }
+
+    async function remove() {
+        const res = window.confirm('Deseja realmente excluir a tarefa?');
+
+        if (res == true) {
+            await api.delete(`/task/${match.params.id}`)
+                .then(() => setRedirect(true));
         }
     }
 
@@ -130,7 +139,7 @@ function Task({ match }) {
                         <span>CONCLUÍDO</span>
                     </div>
 
-                    <button type="button">EXCLUIR</button>
+                    {match.params.id && <button type="button" onClick={remove}>EXCLUIR</button>}
                 </S.Options>
 
                 <S.Save>
