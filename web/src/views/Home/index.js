@@ -70,8 +70,8 @@ function Home() {
       <S.Content>
         {
           tasks.map(t => (
-            <Link tp={`/task/${t._id}`}>
-              <TaskCard type={t.type} title={t.title} when={t.when} />
+            <Link to={`/task/${t._id}`}>
+              <TaskCard type={t.type} title={t.title} when={t.when} done={t.done} />
             </Link>
           ))
         }

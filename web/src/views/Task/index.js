@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { Redirect } from 'react-router-dom';
+import { format } from 'date-fns';
 import * as S from './styles';
 
 import api from '../../services/api';
@@ -10,7 +12,8 @@ import TypeIcons from '../../utils/tyoeIcons';
 import iconCalendar from '../../assets/calendar.png';
 import iconClock from '../../assets/clock.png';
 
-function Task() {
+function Task({ match }) {
+    const [redirect, setRedirect] = useState(false);
     const [lateCount, setLateCount] = useState();
     const [type, setType] = useState();
     const [id, setId] = useState();
@@ -28,23 +31,48 @@ function Task() {
             });
     }
 
+    async function loadTaskDetails() {
+        await api.get(`/task/${match.params.id}`)
+            .then(response => {
+                setType(response.data.type);
+                setTitle(response.data.title);
+                setDescription(response.data.description);
+                setDate(format(new Date(response.data.when), 'yyyy-MM-dd'));
+                setHour(format(new Date(response.data.when), 'HH:mm'));
+            })
+    }
+
     async function save() {
-        await api.post('/task', {
-            macaddress,
-            type,
-            title,
-            description,
-            when: `${date}T${hour}:00.000`
-        })
-            .then(() => alert('TAREFA CADASTRADA COM SUCESSO!'));
+        if (match.params.id) {
+            await api.put(`/task/${match.params.id}`, {
+                macaddress,
+                done,
+                type,
+                title,
+                description,
+                when: `${date}T${hour}:00.000`
+            })
+            setRedirect(true);
+        } else {
+            await api.post('/task', {
+                macaddress,
+                type,
+                title,
+                description,
+                when: `${date}T${hour}:00.000`
+            })
+            setRedirect(true);
+        }
     }
 
     useEffect(() => {
         lateVerify();
+        loadTaskDetails();
     }, []);
 
     return (
         <S.Container>
+            {redirect && <Redirect />}
             <Header lateCount={lateCount} />
 
             <S.Form>
