@@ -11,14 +11,18 @@ function QrCode() {
     const [redirect, setRedirect] = useState(false);
 
     async function saveMac() {
-        await localStorage.setItem('@todo/macaddress', mac);
-        setRedirect(true);
-        window.location.reload();
+        if (!mac)
+            alert('Você precisa informar o número que apareceu no celular!');
+        else {
+            await localStorage.setItem('@todo/macaddress', mac);
+            setRedirect(true);
+            window.location.reload();
+        }
     }
 
     return (
         <S.Container>
-            { redirect && <Redirect to="/"/> }
+            { redirect && <Redirect to="/" /> }
             <Header />
             <S.Content>
                 <h1>CAPTURE O QRCODE PELO APP</h1>
