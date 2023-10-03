@@ -4,6 +4,7 @@ import { format } from 'date-fns';
 import * as S from './styles';
 
 import api from '../../services/api';
+import isConnected from '../../utils/isConnected';
 
 import Header from '../../components/Header';
 import Footer from '../../components/Footer';
@@ -79,6 +80,9 @@ function Task({ match }) {
     }
 
     useEffect(() => {
+        if(!isConnected)
+            setRedirect(true);
+        
         loadTaskDetails();
     }, []);
 
